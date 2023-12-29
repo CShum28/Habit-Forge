@@ -94,7 +94,7 @@ function Login() {
                   )}
                 />
                 <Button type="submit" className="mt-3">
-                  Submit
+                  Login
                 </Button>
               </form>
               <Link to="/sign-up" className="flex flex-row justify-center pt-3">
