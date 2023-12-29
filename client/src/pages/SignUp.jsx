@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,18 +19,27 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const formSchema = z.object({
-  username: z
-    .string()
-    .min(1, { message: "Username must be 1 or more characters." })
-    .max(50, { message: "Username must not be longer than 50 characters." }),
-  password: z
-    .string()
-    .min(1, { message: "Password must be 1 or more characters." })
-    .max(50, { message: "Password must not be longer than 50 characters." }),
-});
+const formSchema = z
+  .object({
+    username: z
+      .string()
+      .min(1, { message: "Username must be 1 or more characters." })
+      .max(50, { message: "Username must not be longer than 50 characters." }),
+    password: z
+      .string()
+      .min(1, { message: "Password must be 1 or more characters." })
+      .max(50, { message: "Password must not be longer than 50 characters." }),
+    confirmPassword: z
+      .string()
+      .min(1, { message: "Password must be 1 or more characters." })
+      .max(50, { message: "Password must not be longer than 50 characters." }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match, please try again",
+    path: ["confirmPassword"],
+  });
 
-function Login() {
+function SignUp() {
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -53,7 +61,7 @@ function Login() {
       <div className="content-container flex flex-col justify-center items-center content-container h-screen">
         <Card className="w-96">
           <CardHeader>
-            <CardTitle>Login</CardTitle>
+            <CardTitle>Sign Up</CardTitle>
             {/* <CardDescription>Card Description</CardDescription> */}
           </CardHeader>
           <CardContent>
@@ -71,9 +79,7 @@ function Login() {
                       <FormControl>
                         <Input placeholder="username..." {...field} />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -90,16 +96,34 @@ function Login() {
                           type="password"
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem className="mt-3">
+                      <FormLabel>Confirm Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="confirm password..."
+                          {...field}
+                          type="password"
+                        />
+                      </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
                 <Button type="submit" className="mt-3">
-                  Login
+                  Sign Up
                 </Button>
               </form>
-              <Link to="/sign-up" className="flex flex-row justify-center pt-3">
+              <Link to="/login" className="flex flex-row justify-center pt-3">
                 <p className="text-secondary">
-                  Don't have an account? Sign up here!
+                  Already have an account? Login here!
                 </p>
               </Link>
             </Form>
@@ -110,4 +134,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
