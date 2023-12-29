@@ -1,6 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -19,7 +20,9 @@ function Home() {
           habits, one day at a time, with Habit Forge—because consistency is the
           key to success!
         </p>
-        <Button>Get Started</Button>
+        <Link to="/login">
+          <Button>Get Started</Button>
+        </Link>
       </div>
     </div>
   );
