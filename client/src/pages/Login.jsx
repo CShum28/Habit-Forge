@@ -1,6 +1,9 @@
 import React from "react";
+import axios from "axios";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../feature/auth/authSlice";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -32,6 +35,9 @@ const formSchema = z.object({
 });
 
 function Login() {
+  // const login = useSelector((state) => state.setCredentials.value);
+  const dispatch = useDispatch();
+
   // 1. Define your form.
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -43,9 +49,42 @@ function Login() {
 
   // 2. Define a submit handler.
   function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    axios
+      .post(`${baseUrl}/sign-in`, values, { withCredentials: true })
+      .then((results) => {
+        console.log(results);
+        if (results.status === 200) {
+          console.log("login success");
+          console.log(results.data);
+
+          dispatch(
+            setCredentials({
+              username: results.data.username,
+              firstName: results.data.firstName,
+              lastName: results.data.lastName,
+            })
+          );
+
+          form.reset({
+            firstName: "",
+            lastName: "",
+            username: "",
+            password: "",
+            confirmPassword: "",
+          });
+        }
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          form.setError("error", {
+            type: "manual",
+            message: "Username or Password does not match!",
+          });
+        } else {
+          console.log(err);
+        }
+      });
   }
   return (
     <div>
@@ -74,6 +113,7 @@ function Login() {
                       <FormDescription>
                         This is your public display name.
                       </FormDescription>
+                      <FormMessage></FormMessage>
                     </FormItem>
                   )}
                 />
@@ -90,8 +130,14 @@ function Login() {
                           type="password"
                         />
                       </FormControl>
+                      <FormMessage></FormMessage>
                     </FormItem>
                   )}
+                />
+                <FormField
+                  control={form.control}
+                  name="error"
+                  render={({}) => <FormMessage className="mt-3"></FormMessage>}
                 />
                 <Button type="submit" className="mt-3">
                   Login
