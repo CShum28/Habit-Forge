@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [activeTab, setActiveTab] = useState(null);
   const location = useLocation();
 
+  const user = useSelector((state) => state.auth.value);
+
+  // console.log("header:", user);
   const headerRoutes = [
     {
       name: "My Habits",
@@ -41,6 +45,7 @@ function Header() {
       <Link to="/" className="text-2xl">
         Habit Forge
       </Link>
+      {user && <p>{user.username}</p>}
       <ul className="list-none flex flex-row gap-x-5 hover:cursor-pointer">
         {headerRoutes.map((route) => {
           return (

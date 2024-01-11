@@ -1,4 +1,7 @@
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { initializeAuth, logOut } from "../src/feature/auth/authSlice";
 import Home from "./pages/Home";
 import MyHabits from "./pages/MyHabits";
 import WeeklyReview from "./pages/WeeklyReview";
@@ -8,6 +11,16 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Check for username in localStorage when app starts
+    const username = localStorage.getItem("username");
+    if (username) {
+      dispatch(initializeAuth({ username }));
+    }
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Routes>

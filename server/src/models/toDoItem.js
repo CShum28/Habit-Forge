@@ -9,9 +9,20 @@ const toDoItemSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  taskExecutionDates: {
+    // Array of dates for when the task should be done
+    type: [Date],
+    default: [],
+  },
   task: {
     type: String,
     required: true,
+  },
+  category: {
+    type: [String], // Array of strings if multiple categories per item
+  },
+  color: {
+    type: String, // Store color as a string (e.g., '#FF5733', 'red', 'rgb(255,0,0)')
   },
   completed: {
     type: Boolean,
