@@ -1,5 +1,6 @@
 import React from "react";
 import { Square } from "lucide-react";
+import axios from "axios";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -66,9 +67,14 @@ function AddCategory() {
   });
   // 2. Define a submit handler.
   function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const baseUrl = import.meta.env.VITE_BASE_URL;
+    axios
+      .post(`${baseUrl}/api/add-category`, values, {
+        withCredentials: true, // Necessary for sending cookies over cross-domain requests
+      })
+      .then((res) => console.log(res)) // Handle the successful response
+      .catch((err) => console.error(err)); // Handle errors
+
     form.reset({
       category: "",
       color: "",

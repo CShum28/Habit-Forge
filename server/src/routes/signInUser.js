@@ -17,8 +17,9 @@ router.post("/", (req, res) => {
         } else if (results) {
           // login is successful
           // grab ACCESS TOKEN SECRET from .env file
+          console.log(user);
           const token = jwt.sign(
-            { username: username },
+            { username: user.username, _id: user._id },
             process.env.ACCESS_TOKEN_SECRET
           );
 
