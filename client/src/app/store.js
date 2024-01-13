@@ -1,25 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authSliceReducer, { setCredentials } from "../feature/auth/authSlice";
-// import { getDecodedJWT } from "../utils/auth";
-
-// const preloadedState = () => {
-//   const decodedToken = getDecodedJWT();
-//   if (decodedToken) {
-//     return {
-//       auth: {
-//         username: decodedToken.username,
-//         token: localStorage.getItem("jwt"),
-//         isAuthenticated: true,
-//       },
-//     };
-//   }
-// };
+import authSliceReducer from "../feature/auth/authSlice";
+import dateSliceReducer from "../feature/date/dateSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authSliceReducer,
+    date: dateSliceReducer,
   },
-  // preloadedState: preloadedState(),
 });
 
 export default store;
