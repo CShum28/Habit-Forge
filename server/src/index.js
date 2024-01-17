@@ -24,13 +24,17 @@ const getAllUsers = require("./routes/getAllUsers");
 const insertUser = require("./routes/insertUser");
 const signInUser = require("./routes/signInUser");
 const logoutUser = require("./routes/logoutUser");
-const AddCategory = require("./routes/addCategory");
+const addCategory = require("./routes/addCategory");
+const getCategories = require("./routes/getCategories");
+const categoryRoutes = require("./routes/categoryRoutes");
 
 app.use("/get-users", getAllUsers);
 app.use("/insert-user", insertUser);
 app.use("/sign-in", signInUser);
 app.use("/api/logout", logoutUser);
-app.use("/api/add-category", AddCategory);
+app.use("/api/add-category", addCategory);
+app.use("/api/get-categories", getCategories);
+app.use("/api/category", categoryRoutes);
 
 app.listen(port, () => {
   console.log("App is running on port", port);
