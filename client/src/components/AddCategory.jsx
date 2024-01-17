@@ -1,6 +1,7 @@
 import React from "react";
 import { Square } from "lucide-react";
 import axios from "axios";
+import { useGetCategoriesByIdQuery } from "../app/api/categories/categoriesApi";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,6 +30,7 @@ import {
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -44,6 +46,9 @@ const formSchema = z.object({
 });
 
 function AddCategory() {
+  // refetch the categories and rerenders the list being displayed
+  const { refetch } = useGetCategoriesByIdQuery();
+
   const colors = [
     { color: "No Color", value: "none" },
     {
@@ -72,19 +77,23 @@ function AddCategory() {
       .post(`${baseUrl}/api/add-category`, values, {
         withCredentials: true, // Necessary for sending cookies over cross-domain requests
       })
-      .then((res) => console.log(res)) // Handle the successful response
+      .then((res) => {
+        console.log(res);
+        form.reset({
+          category: "",
+          color: "",
+        });
+        refetch(); // Trigger a refetch of the categories
+      })
       .catch((err) => console.error(err)); // Handle errors
-
-    form.reset({
-      category: "",
-      color: "",
-    });
   }
 
   return (
     <div>
       <Dialog>
-        <DialogTrigger>Add Category</DialogTrigger>
+        <DialogTrigger asChild>
+          <Button>Add Category</Button>
+        </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Category</DialogTitle>
@@ -137,7 +146,24 @@ function AddCategory() {
                     </FormItem>
                   )}
                 />
-                <Button type="submit">Add</Button>
+                <DialogClose asChild>
+                  <Button
+                    type="submit"
+                    onClick={(e) => {
+                      const currentValues = form.getValues(); // Get current form values
+                      // check if category value is filled or not
+                      if (currentValues.category === "") {
+                        form.setError("category", {
+                          type: "manual",
+                          message: "Please enter a category name",
+                        });
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    Add
+                  </Button>
+                </DialogClose>
               </form>
             </Form>
           </DialogHeader>
