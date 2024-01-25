@@ -54,9 +54,9 @@ function AddHabit({ category }) {
     });
   };
 
-  useEffect(() => {
-    console.log(selectedDays);
-  }, [selectedDays]);
+  // useEffect(() => {
+  //   console.log(selectedDays);
+  // }, [selectedDays]);
 
   // 1. Define your form.
   const form = useForm({
