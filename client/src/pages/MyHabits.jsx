@@ -23,10 +23,16 @@ function MyHabits() {
 
         {categoriesData &&
           categoriesData.map((category) => {
-            return <Category key={category._id} category={category} />;
+            return (
+              <div key={category._id} className="mb-4">
+                <Category category={category} />
+              </div>
+            );
           })}
 
-        <AddCategory />
+        <div className="mt-4">
+          <AddCategory />
+        </div>
       </div>
     </div>
   );
