@@ -99,7 +99,7 @@ function AddHabit({ category }) {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-8 text-left"
               >
                 <FormField
                   control={form.control}
@@ -114,21 +114,23 @@ function AddHabit({ category }) {
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-row gap-x-5">
+                <div className="flex flex-row gap-x-5 items-center">
+                  <p>Repeat On:</p>
                   {daysOfWeek.map((day, index) => {
                     // Check if the day is selected
                     const isSelected = selectedDays.includes(day);
 
                     return (
-                      <p
-                        key={index}
-                        className={`rounded-full border border-black w-8 h-8 flex justify-center items-center hover:cursor-pointer ${
-                          isSelected ? "bg-gray-200" : ""
-                        }`}
-                        onClick={() => toggleSelectDay(day)}
-                      >
-                        {day.charAt(0)}
-                      </p>
+                      <div key={index}>
+                        <p
+                          className={`rounded-full border border-black w-8 h-8 flex justify-center items-center hover:cursor-pointer ${
+                            isSelected ? "bg-cyan-600 text-slate-50" : ""
+                          }`}
+                          onClick={() => toggleSelectDay(day)}
+                        >
+                          {day.charAt(0)}
+                        </p>
+                      </div>
                     );
                   })}
                 </div>
