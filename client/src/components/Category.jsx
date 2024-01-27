@@ -8,12 +8,7 @@ import Habit from "./Habit";
 import { useGetHabitsByIdQuery } from "../app/api/habits/habitsApi";
 
 function Category({ category }) {
-  const {
-    data: habitsData,
-    isLoading,
-    isError,
-    error,
-  } = useGetHabitsByIdQuery(category._id);
+  const { data: habitsData } = useGetHabitsByIdQuery(category._id);
 
   return (
     <div>
@@ -34,7 +29,10 @@ function Category({ category }) {
       <div className="mx-2">
         {habitsData &&
           habitsData.map((habit) => {
-            return <Habit key={habit._id} habit={habit} />;
+            return (
+              <Habit key={habit._id} habit={habit} categoryId={category._id} />
+              // passed down categoryId to be used on delete habit
+            );
           })}
       </div>
     </div>
