@@ -3,9 +3,11 @@ import axios from "axios";
 import { Pencil } from "lucide-react";
 import { Trash2 } from "lucide-react";
 
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
+
 import { useSelector } from "react-redux";
 
-function Habit({ habit }) {
+function Habit({ habit, categoryId }) {
   // State to track if the checkbox is checked
   const [isChecked, setIsChecked] = useState(habit.completed);
 
@@ -39,10 +41,6 @@ function Habit({ habit }) {
       .catch((err) => console.log(err));
   };
 
-  //   useEffect(() => {
-  //     console.log(`${habit.name} is currently ${isChecked ? "true" : "false"}`);
-  //   }, [isChecked]);
-
   return (
     <>
       {isHabitDueToday && (
@@ -54,7 +52,8 @@ function Habit({ habit }) {
           />
           <label>{habit.name}</label>
           <Pencil />
-          <Trash2 />
+          <ConfirmDeleteModal habit={habit} categoryId={categoryId} />
+          {/* passed down categoryId to be used for delete habit */}
         </div>
       )}
     </>
