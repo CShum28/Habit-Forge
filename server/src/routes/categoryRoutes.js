@@ -6,7 +6,6 @@ const userAuth = require("../middleware/userAuth");
 
 router.delete("/:id", userAuth, (req, res) => {
   const { id } = req.params;
-  console.log("##: ", id);
 
   Categories.deleteOne({ _id: id })
     .then(() => res.status(200).json({ message: "Category deleted" }))
