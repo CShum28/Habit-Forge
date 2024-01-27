@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useGetHabitsByIdQuery } from "../app/api/habits/habitsApi";
+import { skipToken } from "@reduxjs/toolkit/query/react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,6 +19,7 @@ import {
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -31,6 +35,9 @@ const formSchema = z.object({
 });
 
 function AddHabit({ category }) {
+  // Use skipToken to conditionally skip the query if category._id is not available
+  const { refetch } = useGetHabitsByIdQuery(category._id ?? skipToken);
+
   const daysOfWeek = [
     "Sunday",
     "Monday",
@@ -53,10 +60,6 @@ function AddHabit({ category }) {
       }
     });
   };
-
-  useEffect(() => {
-    console.log(selectedDays);
-  }, [selectedDays]);
 
   // 1. Define your form.
   const form = useForm({
@@ -82,6 +85,7 @@ function AddHabit({ category }) {
           habit: "",
         });
         setSelectedDays([]);
+        refetch();
       })
       .catch((err) => console.error(err));
   }
@@ -99,7 +103,7 @@ function AddHabit({ category }) {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-8 text-left"
               >
                 <FormField
                   control={form.control}
@@ -114,25 +118,44 @@ function AddHabit({ category }) {
                     </FormItem>
                   )}
                 />
-                <div className="flex flex-row gap-x-5">
+                <div className="flex flex-row gap-x-5 items-center">
+                  <p>Repeat On:</p>
                   {daysOfWeek.map((day, index) => {
                     // Check if the day is selected
                     const isSelected = selectedDays.includes(day);
 
                     return (
-                      <p
-                        key={index}
-                        className={`rounded-full border border-black w-8 h-8 flex justify-center items-center hover:cursor-pointer ${
-                          isSelected ? "bg-gray-200" : ""
-                        }`}
-                        onClick={() => toggleSelectDay(day)}
-                      >
-                        {day.charAt(0)}
-                      </p>
+                      <div key={index}>
+                        <p
+                          className={`rounded-full border border-black w-8 h-8 flex justify-center items-center hover:cursor-pointer ${
+                            isSelected ? "bg-cyan-600 text-slate-50" : ""
+                          }`}
+                          onClick={() => toggleSelectDay(day)}
+                        >
+                          {day.charAt(0)}
+                        </p>
+                      </div>
                     );
                   })}
                 </div>
-                <Button type="submit">Add</Button>
+                <DialogClose asChild>
+                  <Button
+                    type="submit"
+                    onClick={(e) => {
+                      const currentValues = form.getValues(); // Get current form values
+                      // check if habit value is filled or not
+                      if (currentValues.habit === "") {
+                        form.setError("habit", {
+                          type: "manual",
+                          message: "Please enter a category name",
+                        });
+                        e.preventDefault();
+                      }
+                    }}
+                  >
+                    Add
+                  </Button>
+                </DialogClose>
               </form>
             </Form>
           </DialogHeader>
