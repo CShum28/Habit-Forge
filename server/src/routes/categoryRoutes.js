@@ -4,16 +4,20 @@ const Categories = require("../models/category");
 
 const userAuth = require("../middleware/userAuth");
 
+// Delete category by Id
 router.delete("/:id", userAuth, (req, res) => {
   const { id } = req.params;
 
   Categories.deleteOne({ _id: id })
-    .then(() => res.status(200).json({ message: "Category deleted" }))
+    .then(() => {
+      res.status(200).json({ message: "Category deleted" });
+    })
     .catch((err) =>
       res.status(500).json({ message: "Error deleting category: ", err })
     );
 });
 
+// Update category
 router.put("/:id", userAuth, (req, res) => {
   const { id } = req.params; // grab id for the search
   const { category, color } = req.body;
@@ -24,7 +28,9 @@ router.put("/:id", userAuth, (req, res) => {
   console.log(update);
 
   Categories.findOneAndUpdate(filter, update, { new: true })
-    .then(() => res.status(200).json({ message: "Category updated" }))
+    .then(() => {
+      res.status(200).json({ message: "Category updated" });
+    })
     .catch((err) =>
       res.status(500).json({ message: "Error updating category", error: err })
     );

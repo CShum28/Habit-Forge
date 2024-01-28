@@ -24,6 +24,29 @@ router.post("/", userAuth, (req, res) => {
     });
 });
 
+// Update habit route
+router.put("/:id", userAuth, (req, res) => {
+  const { id } = req.params;
+
+  const { habit, days } = req.body;
+
+  const filter = { _id: id };
+  const update = {
+    name: habit,
+    days,
+  };
+
+  console.log(id);
+
+  ToDoItem.findOneAndUpdate(filter, update, { new: true })
+    .then(() => {
+      res.status(200).json({ message: "Habit updated" });
+    })
+    .catch((err) => {
+      res.status(400).json({ message: "Error updating habit: ", err });
+    });
+});
+
 // router.patch("/:id/toggleCheck", userAuth, (req, res) => {
 //   const habitId = req.params.id;
 

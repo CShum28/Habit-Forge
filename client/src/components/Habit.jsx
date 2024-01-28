@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Pencil } from "lucide-react";
-import { Trash2 } from "lucide-react";
 
+import EditHabitModal from "./EditHabitModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 import { useSelector } from "react-redux";
@@ -51,7 +50,7 @@ function Habit({ habit, categoryId }) {
             checked={isChecked}
           />
           <label>{habit.name}</label>
-          <Pencil />
+          <EditHabitModal habit={habit} categoryId={categoryId} />
           <ConfirmDeleteModal habit={habit} categoryId={categoryId} />
           {/* passed down categoryId to be used for delete habit */}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useGetHabitsByIdQuery } from "../app/api/habits/habitsApi";
 import { skipToken } from "@reduxjs/toolkit/query/react";
@@ -26,7 +26,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Plus } from "lucide-react";
+import { Pencil } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 
@@ -34,9 +34,9 @@ const formSchema = z.object({
   habit: z.string().min(1).max(50),
 });
 
-function AddHabit({ category }) {
+function EditHabitModal({ habit, categoryId }) {
   // Use skipToken to conditionally skip the query if category._id is not available
-  const { refetch } = useGetHabitsByIdQuery(category._id ?? skipToken);
+  const { refetch } = useGetHabitsByIdQuery(categoryId ?? skipToken);
 
   const daysOfWeek = [
     "Sunday",
@@ -48,7 +48,7 @@ function AddHabit({ category }) {
     "Saturday",
   ];
 
-  const [selectedDays, setSelectedDays] = useState([]);
+  const [selectedDays, setSelectedDays] = useState(habit.days);
 
   const toggleSelectDay = (day) => {
     setSelectedDays((prev) => {
@@ -65,26 +65,23 @@ function AddHabit({ category }) {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      habit: "",
+      habit: habit.name,
     },
   });
   // 2. Define a submit handler.
   function onSubmit(values) {
-    const habit = {
+    const updateHabit = {
       habit: values.habit,
       days: selectedDays,
-      category_id: category._id,
     };
 
     const baseUrl = import.meta.env.VITE_BASE_URL;
     axios
-      .post(`${baseUrl}/api/habit`, habit, { withCredentials: true })
+      .put(`${baseUrl}/api/habit/${habit._id}`, updateHabit, {
+        withCredentials: true,
+      })
       .then((res) => {
         console.log(res);
-        form.reset({
-          habit: "",
-        });
-        setSelectedDays([]);
         refetch();
       })
       .catch((err) => console.error(err));
@@ -94,11 +91,11 @@ function AddHabit({ category }) {
     <div>
       <Dialog>
         <DialogTrigger asChild>
-          <Plus />
+          <Pencil />
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add Habit</DialogTitle>
+            <DialogTitle>Edit Habit</DialogTitle>
 
             <Form {...form}>
               <form
@@ -165,4 +162,4 @@ function AddHabit({ category }) {
   );
 }
 
-export default AddHabit;
+export default EditHabitModal;

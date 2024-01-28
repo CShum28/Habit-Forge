@@ -45,7 +45,7 @@ const formSchema = z.object({
   color: z.string(),
 });
 
-function AddCategory() {
+function AddCategoryModal() {
   // refetch the categories and rerenders the list being displayed
   const { refetch } = useGetCategoriesByIdQuery();
 
@@ -173,4 +173,4 @@ function AddCategory() {
   );
 }
 
-export default AddCategory;
+export default AddCategoryModal;
