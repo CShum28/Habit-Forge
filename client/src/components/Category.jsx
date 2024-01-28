@@ -1,6 +1,6 @@
 import React from "react";
 
-import AddHabit from "../components/AddHabit";
+import AddHabitModal from "./AddHabitModal";
 import EditCategoryModal from "../components/EditCategoryModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import Habit from "./Habit";
@@ -21,7 +21,7 @@ function Category({ category }) {
         </p>
 
         <div className="flex flex-row gap-x-2">
-          <AddHabit category={category} />
+          <AddHabitModal category={category} />
           <EditCategoryModal category={category} />
           <ConfirmDeleteModal category={category} />
         </div>
@@ -30,8 +30,8 @@ function Category({ category }) {
         {habitsData &&
           habitsData.map((habit) => {
             return (
-              <Habit key={habit._id} habit={habit} categoryId={category._id} />
               // passed down categoryId to be used on delete habit
+              <Habit key={habit._id} habit={habit} categoryId={category._id} />
             );
           })}
       </div>
