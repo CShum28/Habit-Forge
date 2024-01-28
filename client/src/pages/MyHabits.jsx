@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import DateFlipper from "../components/DateFlipper";
-import AddCategory from "../components/AddCategory";
+import AddCategoryModal from "../components/AddCategoryModal";
 
 import Category from "../components/Category";
 
@@ -31,7 +31,7 @@ function MyHabits() {
           })}
 
         <div className="mt-4">
-          <AddCategory />
+          <AddCategoryModal />
         </div>
       </div>
     </div>
