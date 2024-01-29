@@ -150,7 +150,7 @@ function EditHabitModal({ habit, categoryId }) {
                       }
                     }}
                   >
-                    Add
+                    Save
                   </Button>
                 </DialogClose>
               </form>
