@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import EditHabitModal from "./EditHabitModal";
@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 function Habit({ habit, categoryId }) {
   // State to track if the checkbox is checked
-  const [isChecked, setIsChecked] = useState(habit.completed);
+  const [isChecked, setIsChecked] = useState();
 
   //Grab current date
   const dateString = useSelector((state) => state.date.value);
@@ -28,16 +28,36 @@ function Habit({ habit, categoryId }) {
     const newCheckedStatus = !isChecked;
     setIsChecked(newCheckedStatus);
 
+    // Extract the year, month, and day parts to avoid timezone issues
+    // Ensure date stays within the correct timezone
+    const timeZone = "America/New_York"; // Use your desired time zone
+    const formattedDate = date
+      .toLocaleString("en-US", {
+        timeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .split(",")[0];
+
     const baseUrl = import.meta.env.VITE_BASE_URL;
     axios
-      .patch(`${baseUrl}/api/habit/${habit._id}/toggleCheck`, {
-        completed: newCheckedStatus,
-      })
+      .put(
+        `${baseUrl}/api/habit/${habit._id}/toggleCheck`,
+        {
+          date: formattedDate,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         console.log(res);
         setIsChecked(newCheckedStatus);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
