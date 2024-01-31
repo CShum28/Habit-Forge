@@ -47,13 +47,76 @@ router.put("/:id", userAuth, (req, res) => {
     });
 });
 
-// router.patch("/:id/toggleCheck", userAuth, (req, res) => {
-//   const habitId = req.params.id;
+router.put("/:id/toggleCheck", userAuth, (req, res) => {
+  const habitId = req.params.id;
+  const { date } = req.body;
 
-//   console.log(habitId);
-//   res.send(habitId);
-//   // UPDATE THE PATCH ROUTE AFTER SUBMITTING A PATCH
-// });
+  ToDoItem.findOne({ _id: habitId })
+    .then((toDoItem) => {
+      // Check to see if the date exists inside of toDoItems.completionStatus array
+      const completionExistCheck = toDoItem.completionStatus.filter(
+        (completedInfo) => {
+          const stringDate = completedInfo.date;
+
+          // Extract the year, month, and day parts to avoid timezone issues
+          // Ensure date stays within the correct timezone
+          const timeZone = "America/New_York"; // Use your desired time zone
+          const formattedDate = stringDate
+            .toLocaleString("en-US", {
+              timeZone,
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            })
+            .split(",")[0];
+
+          // Compares the dates inside of formattedDate(toDoItem.completionStatus) to toggleDate(which was passed in)
+          return formattedDate === date;
+        }
+      );
+
+      // If the date exists, it will filter to remove it from toDoItem.completionStatus
+      if (completionExistCheck.length === 1) {
+        console.log("removing: ", date);
+        toDoItem.completionStatus = toDoItem.completionStatus.filter(
+          (completedInfo) => {
+            const stringDate = completedInfo.date;
+
+            // Extract the year, month, and day parts to avoid timezone issues
+            // Ensure date stays within the correct timezone
+            const timeZone = "America/New_York"; // Use your desired time zone
+            const formattedDate = stringDate
+              .toLocaleString("en-US", {
+                timeZone,
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .split(",")[0];
+
+            // Compares the dates inside of toDoItem.completionStatus to date(which was passed in)
+            return formattedDate !== date;
+          }
+        );
+        // If it does not exist, it will add it to toDoItem.completionStatus
+      } else {
+        console.log("added: ", date);
+        toDoItem.completionStatus.push({ date: date });
+      }
+      console.log("--");
+      toDoItem
+        .save()
+        .then(() => {
+          res.status(200).json({ message: "Habit status updated" });
+        })
+        .catch((err) => {
+          res.status(400).json({ message: err.message });
+        });
+    })
+    .catch((err) => {
+      res.status(400).json({ message: err.message });
+    });
+});
 
 // Get habits for category
 router.get("/", userAuth, (req, res) => {
