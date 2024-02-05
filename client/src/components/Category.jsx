@@ -8,7 +8,7 @@ import Habit from "./Habit";
 import { useGetHabitsByIdQuery } from "../app/api/habits/habitsApi";
 
 function Category({ category }) {
-  const { data: habitsData } = useGetHabitsByIdQuery(category._id);
+  const { data: habitsData, refetch } = useGetHabitsByIdQuery(category._id);
 
   return (
     <div>
@@ -29,9 +29,21 @@ function Category({ category }) {
       <div className="mx-2">
         {habitsData &&
           habitsData.map((habit) => {
+            // array of dates where the habit has been completed
+            const completedDatesArr = habit.completionStatus.map(
+              (completedDate) => {
+                return completedDate.date.split("T")[0];
+              }
+            );
             return (
               // passed down categoryId to be used on delete habit
-              <Habit key={habit._id} habit={habit} categoryId={category._id} />
+              <Habit
+                key={habit._id}
+                habit={habit}
+                categoryId={category._id}
+                completedDates={completedDatesArr}
+                refetchHabits={refetch}
+              />
             );
           })}
       </div>
