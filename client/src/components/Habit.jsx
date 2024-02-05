@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-
 import EditHabitModal from "./EditHabitModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
-
 import { useSelector } from "react-redux";
 
-function Habit({ habit, categoryId }) {
-  // State to track if the checkbox is checked
-  const [isChecked, setIsChecked] = useState();
-
+function Habit({ habit, categoryId, completedDates, refetchHabits }) {
   //Grab current date
   const dateString = useSelector((state) => state.date.value);
   // convert ISO string into date
   const date = new Date(dateString);
+
+  // Extract the year, month, and day parts to avoid timezone issues
+  // Ensure date stays within the correct timezone
+  const timeZone = "America/New_York"; // Use your desired time zone
+  const compareDate = date
+    .toLocaleString("en-US", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+    .split(",")[0]
+    .split("/");
+  // Reconfigure data to ensure it can match up with the completeDates array to be compared
+  const dateYear = compareDate.pop();
+  compareDate.unshift(dateYear);
+  // create new const and join to compare for isChecked
+  const testingDate = compareDate.join("-");
+
+  // State to track if the checkbox is checked
+  const [isChecked, setIsChecked] = useState(false);
+
+  // Effect to update isChecked based on completedDates and testingDate
+  useEffect(() => {
+    setIsChecked(completedDates.includes(testingDate));
+  }, [completedDates, testingDate]); // Dependencies that trigger the effect
 
   // Gives you what day it is (ex. Monday, Tuesday, etc.)
   const dayOfWeek = new Intl.DateTimeFormat("en-US", {
@@ -54,6 +75,8 @@ function Habit({ habit, categoryId }) {
       .then((res) => {
         console.log(res);
         setIsChecked(newCheckedStatus);
+        // After successfully updating the habit, refetch the habits data
+        refetchHabits(); // This triggers the refetch in the Category component
       })
       .catch((err) => {
         console.log(err);
