@@ -39,30 +39,35 @@ function Header() {
     }
   }, [location]);
 
+  console.log(user);
+
   return (
     <nav className="shadow-xl top-0 fixed z-50 text-text bg-background flex flex-row justify-between items-center px-8 w-full">
       {/* <nav className="z-50 w-full absolute top-0 bg-background flex flex-row justify-between items-center px-8"> */}
       <Link to="/" className="text-2xl">
         Habit Forge
       </Link>
-      {user && <p>{user.username}</p>}
-      <ul className="list-none flex flex-row gap-x-5 hover:cursor-pointer">
-        {headerRoutes.map((route) => {
-          return (
-            <li key={route.name}>
-              <Link
-                to={route.to}
-                className={`flex items-center px-3 py-3 ${
-                  activeTab === route.name ? "bg-secondary" : ""
-                }`}
-                onClick={() => handleClick(route.name)}
-              >
-                {route.name}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+      {user.username && (
+        <div>
+          <ul className="list-none flex flex-row gap-x-5 hover:cursor-pointer">
+            {headerRoutes.map((route) => {
+              return (
+                <li key={route.name}>
+                  <Link
+                    to={route.to}
+                    className={`flex items-center px-3 py-3 ${
+                      activeTab === route.name ? "bg-secondary" : ""
+                    }`}
+                    onClick={() => handleClick(route.name)}
+                  >
+                    {route.name}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </nav>
   );
 }
