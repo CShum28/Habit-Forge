@@ -2,8 +2,11 @@ import React from "react";
 import Header from "../components/Header";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const user = useSelector((state) => state.auth.value);
+
   return (
     <div>
       <Header />
@@ -20,9 +23,15 @@ function Home() {
           habits, one day at a time, with Habit Forge—because consistency is the
           key to success!
         </p>
-        <Link to="/login">
-          <Button>Get Started</Button>
-        </Link>
+        {user.username ? (
+          <Link to={"/my-habits"}>
+            <Button>See Habits</Button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <Button>Get Started</Button>
+          </Link>
+        )}
       </div>
     </div>
   );

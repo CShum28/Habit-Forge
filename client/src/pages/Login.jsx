@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../feature/auth/authSlice";
 
@@ -37,6 +37,7 @@ const formSchema = z.object({
 function Login() {
   // const login = useSelector((state) => state.setCredentials.value);
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   // 1. Define your form.
   const form = useForm({
@@ -66,13 +67,10 @@ function Login() {
             })
           );
 
-          form.reset({
-            firstName: "",
-            lastName: "",
-            username: "",
-            password: "",
-            confirmPassword: "",
-          });
+          form.reset();
+
+          // redirect to my-habits page
+          navigate("/my-habits");
         }
       })
       .catch((err) => {

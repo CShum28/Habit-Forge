@@ -44,10 +44,10 @@ function Header() {
   return (
     <nav className="shadow-xl top-0 fixed z-50 text-text bg-background flex flex-row justify-between items-center px-8 w-full">
       {/* <nav className="z-50 w-full absolute top-0 bg-background flex flex-row justify-between items-center px-8"> */}
-      <Link to="/" className="text-2xl">
+      <Link to="/" className="text-2xl px-3 py-3">
         Habit Forge
       </Link>
-      {user.username && (
+      {user.username ? (
         <div>
           <ul className="list-none flex flex-row gap-x-5 hover:cursor-pointer">
             {headerRoutes.map((route) => {
@@ -55,7 +55,7 @@ function Header() {
                 <li key={route.name}>
                   <Link
                     to={route.to}
-                    className={`flex items-center px-3 py-3 ${
+                    className={`flex items-center ${
                       activeTab === route.name ? "bg-secondary" : ""
                     }`}
                     onClick={() => handleClick(route.name)}
@@ -67,6 +67,10 @@ function Header() {
             })}
           </ul>
         </div>
+      ) : (
+        <Link to={"/login"} className="px-3 py-3">
+          Login
+        </Link>
       )}
     </nav>
   );
