@@ -28,6 +28,8 @@ function Habit({ habit, categoryId, completedDates, refetchHabits }) {
   // create new const and join to compare for isChecked
   const testingDate = compareDate.join("-");
 
+  // console.log(compareDate);
+
   // State to track if the checkbox is checked
   const [isChecked, setIsChecked] = useState(false);
 

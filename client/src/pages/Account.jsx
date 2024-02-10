@@ -3,13 +3,15 @@ import axios from "axios";
 import Header from "../components/Header";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logOut } from "../feature/auth/authSlice";
 
 import { Button } from "@/components/ui/button";
 
 function Account() {
   const user = useSelector((state) => state.auth.value);
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   console.log(user);
@@ -27,8 +29,10 @@ function Account() {
           credentials: "include", // For cross-origin requests
         }
       )
-      .then((result) => console.log("hi"))
-      .then(() => dispatch(logOut()))
+      .then(() => {
+        dispatch(logOut());
+        navigate("/");
+      })
       .catch((err) => console.log("Logout error: ", err));
   };
 

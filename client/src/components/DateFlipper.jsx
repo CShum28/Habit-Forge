@@ -18,7 +18,7 @@ function DateFlipper() {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center gap-x-2">
+    <div className="flex flex-row justify-center items-center gap-x-2 mb-4">
       <Button
         onClick={() => dispatch(decreaseDate())}
         className="bg-inherit text-black hover:bg-inherit"

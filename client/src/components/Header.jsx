@@ -39,11 +39,10 @@ function Header() {
     }
   }, [location]);
 
-  console.log(user);
+  // console.log(user);
 
   return (
-    <nav className="shadow-xl top-0 fixed z-50 text-text bg-background flex flex-row justify-between items-center px-8 w-full">
-      {/* <nav className="z-50 w-full absolute top-0 bg-background flex flex-row justify-between items-center px-8"> */}
+    <nav className="shadow-xl top-0 fixed z-50 text-text bg-background flex flex-row justify-between items-center px-8 w-full min-w-800">
       <Link to="/" className="text-2xl px-3 py-3">
         Habit Forge
       </Link>
