@@ -12,13 +12,16 @@ module.exports = {
     container: {
       center: true,
       padding: "2rem",
-      screens: {
-        sm: "900px", // Your own value for small screens
-        md: "1200px", // Styles apply from 900px and above
-        // lg: "1400px", // Styles apply from 1400px and above
-      },
     },
     extend: {
+      screens: {
+        sm: { "max:": "1200px" }, // Your own value for small screens
+        md: { min: "1201px" }, // Styles apply from 900px and above
+        // lg: "1400px", // Styles apply from 1400px and above
+      },
+      minWidth: {
+        800: "800px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
