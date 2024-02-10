@@ -5,10 +5,64 @@ import EditCategoryModal from "../components/EditCategoryModal";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import Habit from "./Habit";
 
+import { useSelector } from "react-redux";
+
 import { useGetHabitsByIdQuery } from "../app/api/habits/habitsApi";
 
 function Category({ category }) {
   const { data: habitsData, refetch } = useGetHabitsByIdQuery(category._id);
+
+  //Grab current date
+  const dateString = useSelector((state) => state.date.value);
+  // convert ISO string into date
+  const date = new Date(dateString);
+
+  // Gives you what day it is (ex. Monday, Tuesday, etc.)
+  const dayOfWeek = new Intl.DateTimeFormat("en-US", {
+    weekday: "long",
+  }).format(date);
+
+  // const options = {
+  //   year: "numeric",
+  //   day: "numeric",
+  //   month: "numeric",
+  //   hour: "numeric",
+  //   timeZone: "America/Toronto",
+  //   timeZoneName: "short",
+  // };
+
+  // const dayTest = new Intl.DateTimeFormat("en-US", options).format(date);
+  // console.log(dayTest);
+
+  // console.log(dateString);
+
+  // Empty array to calculate the number of ACTUAL completed habits
+  let actualCompleted = 0;
+  // Map through habits
+  habitsData?.map((habit) => {
+    // console.log(habit);
+    const complete = habit.completionStatus;
+    // Map through habits again to count the number of completed for the day
+    if (complete) {
+      complete.map((completeInfo) => {
+        // for some reason when the date gets here the timezone changes
+        // NEED TO FIGURE THIS PART OUT LOOK INTO DATE SLICE AND UTC VALUE
+        // Compare date and date of completed habit info
+        if (completeInfo.date.split("T")[0] === dateString.split("T")[0]) {
+          actualCompleted++;
+        }
+      });
+    }
+  });
+
+  // Empty array to calculate the number of habits to be done
+  const completeTotal = [];
+  // Loop over habits to check the number of habits to be done within the day
+  habitsData?.map((habit) => {
+    if (habit.days.includes(dayOfWeek)) {
+      completeTotal.push(habit);
+    }
+  });
 
   return (
     <div>
@@ -46,6 +100,12 @@ function Category({ category }) {
               />
             );
           })}
+        {/* Display number of habits to be completed if an habit exists in category */}
+        {completeTotal.length > 0 && (
+          <p>
+            Completed: {actualCompleted}/{completeTotal.length}
+          </p>
+        )}
       </div>
     </div>
   );
