@@ -19,7 +19,8 @@ export const dateSlice = createSlice({
       state.value = newDate.toISOString();
     },
     setDate: (state, action) => {
-      state.value = action.payload.toISOString();
+      const newDate = new Date(action.payload);
+      state.value = newDate.toISOString();
     },
   },
 });
