@@ -26,15 +26,17 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/my-habits" element={<MyHabits />} />
-          <Route path="/weekly-review" element={<WeeklyReview />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<SignUp />} />
-        </Routes>
+        <div style={{ minWidth: "800px" }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/my-habits" element={<MyHabits />} />
+            <Route path="/weekly-review" element={<WeeklyReview />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<SignUp />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </LocalizationProvider>
   );
