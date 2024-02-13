@@ -22,20 +22,7 @@ function Category({ category }) {
     weekday: "long",
   }).format(date);
 
-  // const options = {
-  //   year: "numeric",
-  //   day: "numeric",
-  //   month: "numeric",
-  //   hour: "numeric",
-  //   timeZone: "America/Toronto",
-  //   timeZoneName: "short",
-  // };
-
-  // const dayTest = new Intl.DateTimeFormat("en-US", options).format(date);
-  // console.log(dayTest);
-
-  // console.log(dateString);
-
+  // REFACTOR THIS AFTER
   // Empty array to calculate the number of ACTUAL completed habits
   let actualCompleted = 0;
   // Map through habits
