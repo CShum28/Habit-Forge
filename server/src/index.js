@@ -28,6 +28,7 @@ const addCategory = require("./routes/addCategory");
 const getCategories = require("./routes/getCategories");
 const categoryRoutes = require("./routes/categoryRoutes");
 const habitRoutes = require("./routes/habitRoutes");
+const weeklyReviewRoutes = require("./routes/weeklyReviewRoutes");
 
 app.use("/get-users", getAllUsers);
 app.use("/insert-user", insertUser);
@@ -37,6 +38,7 @@ app.use("/api/add-category", addCategory);
 app.use("/api/get-categories", getCategories);
 app.use("/api/category", categoryRoutes);
 app.use("/api/habit", habitRoutes);
+app.use("/api/weekly-review", weeklyReviewRoutes);
 
 app.listen(port, () => {
   console.log("App is running on port", port);
