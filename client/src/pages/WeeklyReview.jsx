@@ -12,7 +12,7 @@ import {
 function WeeklyReview() {
   const { data: weeklyReviewData } = useGetWeeklyReviewsQuery();
 
-  console.log(weeklyReviewData);
+  // console.log(weeklyReviewData);
 
   return (
     <div>
@@ -30,10 +30,10 @@ function WeeklyReview() {
                     </AccordionTrigger>
                     <AccordionContent>
                       {Object.entries(weeklyData.accomplishments).map(
-                        ([day, { completed, total }]) => (
+                        ([dayOfWeek, { day, completed, total }]) => (
                           <div className="flex flex-row" key={day}>
                             <p>
-                              {day} {completed}/{total}
+                              {day} - {completed}/{total}
                             </p>
                           </div>
                         )
