@@ -27,36 +27,48 @@ router.post("/", userAuth, (req, res) => {
   // Using monday as the first day of the week
   let dayOfWeek = new Date(monday);
 
+  // using setDate to get first day of week
+  // Need to do -1 because of timezone issue, when date goes from front to back (the date shows up on back as +1)
+  dayOfWeek.setDate(dayOfWeek.getDate());
+  // dayOfWeek.setDate(dayOfWeek.getDate() - 1);
+
   // The user object here is attached by the userAuth middleware
   // after verifying the JWT token and fetching the user from the database.
   const user = req.user;
 
   const weeklyData = {
     Monday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
     Tuesday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
     Wednesday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
     Thurday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
     Friday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
     Saturday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
     Sunday: {
+      day: undefined,
       completed: 0,
       total: 0,
     },
@@ -67,6 +79,19 @@ router.post("/", userAuth, (req, res) => {
       for (const day in weeklyData) {
         // Grabbing the specific day of the week to check and compare with DB
         let formattedDate = dayOfWeek.toISOString().split("T")[0];
+
+        const options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        };
+
+        // Get the info on date with name of Month
+        const nameMonthDate = dayOfWeek.toLocaleString("en-US", options);
+        // Update the object day
+        weeklyData[day].day = nameMonthDate;
+        console.log(nameMonthDate);
 
         results.map((habit) => {
           // Grab array of days from the completionStatus
@@ -89,13 +114,18 @@ router.post("/", userAuth, (req, res) => {
         // Move on to the next day
         dayOfWeek.setDate(dayOfWeek.getDate() + 1);
       }
-
-      console.log(weeklyData);
     })
     .then(() => {
+      // Using monday as the first day of the week
+      let firstDayOfWeek = new Date(monday);
+
+      // using setDate to get first day of week
+      // Need to do -1 because of timezone issue, when date goes from front to back (the date shows up on back as +1)
+      firstDayOfWeek.setDate(firstDayOfWeek.getDate() - 1);
+
       WeeklyResults.create({
         user_id: user._id,
-        week_start_date: monday,
+        week_start_date: firstDayOfWeek.toISOString().split("T")[0],
         accomplishments: weeklyData,
       });
     })
