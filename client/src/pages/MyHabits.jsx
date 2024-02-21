@@ -37,8 +37,9 @@ function MyHabits() {
 
     axios
       .post(`${baseUrl}/api/weekly-review`, data, { withCredentials: true })
-      .then(() => {
-        console.log("added");
+      .then((res) => {
+        console.log(res);
+        // console.log("added");
       })
       .catch((err) => {
         console.log(err);

@@ -9,12 +9,10 @@ const weeklyResultsSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  accomplishments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "ToDoItem",
-    },
-  ],
+  accomplishments: {
+    type: Object,
+    require: true,
+  },
 });
 
 const WeeklyResults = mongoose.model("WeeklyResults", weeklyResultsSchema);
