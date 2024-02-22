@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import Header from "../components/Header";
 import DateFlipper from "../components/DateFlipper";
 import AddCategoryModal from "../components/AddCategoryModal";
+import AddWeeklyResult from "../components/AddWeeklyResult";
+import UpdateWeeklyResult from "../components/UpdateWeeklyResult";
 import Category from "../components/Category";
-import { Button } from "@/components/ui/button";
 
 import { useSelector } from "react-redux";
 import { useGetCategoriesByIdQuery } from "../app/api/categories/categoriesApi";
@@ -14,33 +14,13 @@ function MyHabits() {
   const { data: categoriesData, refetch: refetchCategoreisData } =
     useGetCategoriesByIdQuery();
 
-  // Refetch and update categoriesData upon submitting new weekly review data
-  const { data: weeklyReviewData, refetch: refetchWeeklyData } =
-    useGetWeeklyReviewsQuery();
-
-  // Get the list of dates where a Weekly Review already exists
-  // Need ?. to check if a weeklyReviewDate exists or not
-  const weeklyReviewDates = weeklyReviewData?.map((weeklyData) => {
-    return weeklyData.week_start_date.split("T")[0];
-  });
-
-  console.log(weeklyReviewDates);
+  const { data: weeklyReviewData } = useGetWeeklyReviewsQuery();
 
   const user = useSelector((state) => state.auth.value);
-
-  // Effect to trigger re-fetch of habit category data when the user logs in
-  useEffect(() => {
-    if (user.username) {
-      refetchCategoreisData();
-    }
-  }, [user.username, refetchCategoreisData]);
-
   //Grab current date
   const dateString = useSelector((state) => state.date.value);
   // convert ISO string into date
   const date = new Date(dateString);
-
-  // const date = new Date(`${dateString}T00:00:00Z`);
 
   // Gives you what day it is (ex. Monday, Tuesday, etc.)
   const dayOfWeek = new Intl.DateTimeFormat("en-US", {
@@ -48,30 +28,24 @@ function MyHabits() {
   }).format(date);
 
   // Setting the first day of the week
+  // Grab this date to check if a weekly review already exists for the week or not
+  // If it already exists replace button with Update Weekly Results instead
   const monday = new Date(dateString);
   // using setDate to get first day of week
   monday.setDate(monday.getDate() - 6);
 
-  const submitWeeklyResults = () => {
-    const baseUrl = import.meta.env.VITE_BASE_URL;
+  // Get the list of dates where a Weekly Review already exists
+  // Need ?. to check if a weeklyReviewDate exists or not
+  const weeklyReviewDates = weeklyReviewData?.map((weeklyData) => {
+    return weeklyData.week_last_date.split("T")[0];
+  });
 
-    const data = {
-      monday: new Date(monday).toISOString(),
-      sunday: new Date(date).toISOString(),
-    };
-
-    console.log(data);
-
-    axios
-      .post(`${baseUrl}/api/weekly-review`, data, { withCredentials: true })
-      .then((res) => {
-        console.log(res);
-        refetchWeeklyData();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  // Effect to trigger re-fetch of habit category data when the user logs in
+  useEffect(() => {
+    if (user.username) {
+      refetchCategoreisData();
+    }
+  }, [user.username, refetchCategoreisData]);
 
   return (
     <div>
@@ -92,12 +66,15 @@ function MyHabits() {
           <AddCategoryModal />
         </div>
 
-        {dayOfWeek === "Sunday" && (
-          <div className="mt-4">
-            {/* <Button>Submit Weekly Results</Button> */}
-            <Button onClick={submitWeeklyResults}>Submit Weekly Results</Button>
-          </div>
-        )}
+        {dayOfWeek === "Sunday" &&
+          !weeklyReviewDates.includes(date.toISOString().split("T")[0]) && (
+            <AddWeeklyResult monday={monday} sunday={date} />
+          )}
+
+        {dayOfWeek === "Sunday" &&
+          weeklyReviewDates.includes(date.toISOString().split("T")[0]) && (
+            <UpdateWeeklyResult monday={monday} sunday={date} />
+          )}
       </div>
     </div>
   );
