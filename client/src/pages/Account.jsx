@@ -14,7 +14,6 @@ function Account() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  console.log(user);
 
   const signOut = (e) => {
     e.preventDefault();
@@ -46,9 +45,11 @@ function Account() {
             <p>
               Welcome, {user.firstName} {user.lastName}
             </p>
-            <Link to={"/"}>
-              <Button onClick={signOut}>Logout</Button>
-            </Link>
+            <div className="mt-4">
+              <Link to={"/"}>
+                <Button onClick={signOut}>Logout</Button>
+              </Link>
+            </div>
           </div>
         )}
       </div>
