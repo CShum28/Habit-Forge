@@ -22,15 +22,13 @@ router.get("/", userAuth, (req, res) => {
 
 // POST route to create a new Weekly Review
 router.post("/", userAuth, (req, res) => {
-  const { monday } = req.body;
+  const { monday, sunday } = req.body;
 
   // Using monday as the first day of the week
   let dayOfWeek = new Date(monday);
 
   // using setDate to get first day of week
-  // Need to do -1 because of timezone issue, when date goes from front to back (the date shows up on back as +1)
   dayOfWeek.setDate(dayOfWeek.getDate());
-  // dayOfWeek.setDate(dayOfWeek.getDate() - 1);
 
   // The user object here is attached by the userAuth middleware
   // after verifying the JWT token and fetching the user from the database.
@@ -78,7 +76,7 @@ router.post("/", userAuth, (req, res) => {
     .then((results) => {
       for (const day in weeklyData) {
         // Grabbing the specific day of the week to check and compare with DB
-        let formattedDate = dayOfWeek.toISOString().split("T")[0];
+        let formattedDate = dayOfWeek.toLocaleString().split(",")[0];
 
         const options = {
           weekday: "long",
@@ -91,13 +89,12 @@ router.post("/", userAuth, (req, res) => {
         const nameMonthDate = dayOfWeek.toLocaleString("en-US", options);
         // Update the object day
         weeklyData[day].day = nameMonthDate;
-        console.log(nameMonthDate);
 
         results.map((habit) => {
           // Grab array of days from the completionStatus
           const completedDatesArr = habit.completionStatus.map(
             (completedDate) => {
-              return completedDate.date.toISOString().split("T")[0];
+              return completedDate.date.toLocaleString().split(",")[0];
             }
           );
 
@@ -116,16 +113,10 @@ router.post("/", userAuth, (req, res) => {
       }
     })
     .then(() => {
-      // Using monday as the first day of the week
-      let firstDayOfWeek = new Date(monday);
-
-      // using setDate to get first day of week
-      // Need to do -1 because of timezone issue, when date goes from front to back (the date shows up on back as +1)
-      firstDayOfWeek.setDate(firstDayOfWeek.getDate() - 1);
-
       WeeklyResults.create({
         user_id: user._id,
-        week_start_date: firstDayOfWeek.toISOString().split("T")[0],
+        week_start_date: monday,
+        week_last_date: sunday,
         accomplishments: weeklyData,
       });
     })
