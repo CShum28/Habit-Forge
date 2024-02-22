@@ -12,21 +12,25 @@ import {
 function WeeklyReview() {
   const { data: weeklyReviewData } = useGetWeeklyReviewsQuery();
 
-  // console.log(weeklyReviewData);
-
   return (
     <div>
       <Header />
       <div className="content-container content-header-margin">
         {weeklyReviewData &&
           weeklyReviewData.map((weeklyData) => {
-            console.log(weeklyData);
+            const firstDay = weeklyData.week_start_date
+              .toLocaleString()
+              .split("T")[0];
+            const lastDay = weeklyData.week_last_date
+              .toLocaleString()
+              .split("T")[0];
+
             return (
               <div>
                 <Accordion type="single" collapsible>
                   <AccordionItem value="item-1">
                     <AccordionTrigger>
-                      Week of {weeklyData.week_start_date.split("T")[0]}
+                      Week of {firstDay} to {lastDay}
                     </AccordionTrigger>
                     <AccordionContent>
                       {Object.entries(weeklyData.accomplishments).map(
