@@ -9,6 +9,10 @@ const weeklyResultsSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  week_last_date: {
+    type: Date,
+    required: true,
+  },
   accomplishments: {
     type: Object,
     require: true,
