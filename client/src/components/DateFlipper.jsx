@@ -14,7 +14,7 @@ function DateFlipper() {
   const dispatch = useDispatch();
 
   const handleDateChange = (newDate) => {
-    dispatch(setDate(newDate.toISOString())); // Convert Date object to ISO string before dispatching
+    dispatch(setDate(newDate.toLocaleString())); // Convert Date object to ISO string before dispatching
   };
 
   return (
