@@ -25,7 +25,23 @@ export const weeklyReviewApi = createApi({
         return response;
       },
     }),
+    // New endpoint to get a single weekly review by date
+    getWeeklyReviewByDate: builder.query({
+      query: (date) => ({
+        url: `/api/weekly-review/${date}`,
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+        credentials: "include",
+      }),
+      transformResponse: (response) => {
+        return response;
+      },
+    }),
   }),
 });
 
-export const { useGetWeeklyReviewsQuery } = weeklyReviewApi;
+export const { useGetWeeklyReviewsQuery, useGetWeeklyReviewByDateQuery } =
+  weeklyReviewApi;

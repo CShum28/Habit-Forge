@@ -40,6 +40,18 @@ function MyHabits() {
     return weeklyData.week_last_date.split("T")[0];
   });
 
+  // Rearrange the date to fit and match up with the date we are lookig for inside of weeklyResults database
+  const dateParts = dateString.split(",")[0].split("/");
+
+  // Ensure month and day are in two-digit format
+  const month = dateParts[0].padStart(2, "0");
+  const day = dateParts[1].padStart(2, "0");
+  const year = dateParts[2];
+
+  // Format date so its the exact same as the one in the database so we can match it up and pull the right info
+  // Use to compare and check if date is within the weeklyReviewDates array
+  const formattedDate = `${year}-${month}-${day}`;
+
   // Effect to trigger re-fetch of habit category data when the user logs in
   useEffect(() => {
     if (user.username) {
@@ -66,13 +78,15 @@ function MyHabits() {
           <AddCategoryModal />
         </div>
 
+        {/* if it is a Sunday and a weekly review is not yet added for this week */}
         {dayOfWeek === "Sunday" &&
-          !weeklyReviewDates.includes(date.toISOString().split("T")[0]) && (
+          !weeklyReviewDates.includes(formattedDate) && (
             <AddWeeklyResult monday={monday} sunday={date} />
           )}
 
+        {/* if it is a Sunday and a weekly review already exist for this week*/}
         {dayOfWeek === "Sunday" &&
-          weeklyReviewDates.includes(date.toISOString().split("T")[0]) && (
+          weeklyReviewDates.includes(formattedDate) && (
             <UpdateWeeklyResult monday={monday} sunday={date} />
           )}
       </div>
