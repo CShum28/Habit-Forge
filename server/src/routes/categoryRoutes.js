@@ -25,8 +25,6 @@ router.put("/:id", userAuth, (req, res) => {
   const filter = { _id: id };
   const update = { name: category, color };
 
-  console.log(update);
-
   Categories.findOneAndUpdate(filter, update, { new: true })
     .then(() => {
       res.status(200).json({ message: "Category updated" });
