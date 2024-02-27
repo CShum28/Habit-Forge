@@ -20,22 +20,12 @@ app.use(
 
 const port = 3001;
 
-const getAllUsers = require("./routes/getAllUsers");
-const insertUser = require("./routes/insertUser");
-const signInUser = require("./routes/signInUser");
-const logoutUser = require("./routes/logoutUser");
-const addCategory = require("./routes/addCategory");
-const getCategories = require("./routes/getCategories");
+const usersRoutes = require("./routes/usersRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const habitRoutes = require("./routes/habitRoutes");
 const weeklyReviewRoutes = require("./routes/weeklyReviewRoutes");
 
-app.use("/get-users", getAllUsers);
-app.use("/insert-user", insertUser);
-app.use("/sign-in", signInUser);
-app.use("/api/logout", logoutUser);
-app.use("/api/add-category", addCategory);
-app.use("/api/get-categories", getCategories);
+app.use("/api/users", usersRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/habit", habitRoutes);
 app.use("/api/weekly-review", weeklyReviewRoutes);

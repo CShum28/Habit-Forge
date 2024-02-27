@@ -64,7 +64,7 @@ function SignUp() {
   function onSubmit(values) {
     const baseUrl = import.meta.env.VITE_BASE_URL;
     axios
-      .get(`${baseUrl}/get-users`)
+      .get(`${baseUrl}/api/users`)
       .then((res) => {
         // array of current users in the database
         const usersArr = res.data;
@@ -74,7 +74,7 @@ function SignUp() {
             message: "Sorry, that username already exists!",
           });
         } else {
-          axios.post(`${baseUrl}/insert-user`, values).then(() =>
+          axios.post(`${baseUrl}/api/users`, values).then(() =>
             // reset form after successfully creating new user
             form.reset({
               firstName: "",

@@ -12,7 +12,7 @@ export const categoriesApi = createApi({
     getCategoriesById: builder.query({
       query: () => {
         return {
-          url: "/api/get-categories",
+          url: "/api/category",
           method: "GET",
           headers: {
             "Content-Type": "application/json",
