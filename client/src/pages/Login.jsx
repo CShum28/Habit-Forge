@@ -52,7 +52,7 @@ function Login() {
   function onSubmit(values) {
     const baseUrl = import.meta.env.VITE_BASE_URL;
     axios
-      .post(`${baseUrl}/sign-in`, values, { withCredentials: true })
+      .post(`${baseUrl}/api/users/sign-in`, values, { withCredentials: true })
       .then((results) => {
         console.log(results);
         if (results.status === 200) {

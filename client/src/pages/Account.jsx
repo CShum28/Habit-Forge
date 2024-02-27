@@ -21,7 +21,7 @@ function Account() {
     const baseUrl = import.meta.env.VITE_BASE_URL;
     axios
       .post(
-        `${baseUrl}/api/logout`,
+        `${baseUrl}/api/users/sign-out`,
         {},
         {
           withCredentials: true, // Ensures cookies are sent with the request

@@ -74,7 +74,7 @@ function AddCategoryModal() {
   function onSubmit(values) {
     const baseUrl = import.meta.env.VITE_BASE_URL;
     axios
-      .post(`${baseUrl}/api/add-category`, values, {
+      .post(`${baseUrl}/api/category`, values, {
         withCredentials: true, // Necessary for sending cookies over cross-domain requests
       })
       .then((res) => {
