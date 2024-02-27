@@ -4,6 +4,40 @@ const Categories = require("../models/category");
 
 const userAuth = require("../middleware/userAuth");
 
+// Get all categories by Id
+router.get("/", userAuth, (req, res) => {
+  // The user object here is attached by the userAuth middleware
+  // after verifying the JWT token and fetching the user from the database.
+  const user = req.user;
+  Categories.find({ user_id: user._id })
+    .then((categories) => {
+      // console.log(categories);
+      res.status(200).json(categories);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+});
+
+// Post add category route
+router.post("/", userAuth, (req, res) => {
+  const { category, color } = req.body;
+  // The user object here is attached by the userAuth middleware
+  // after verifying the JWT token and fetching the user from the database.
+  const user = req.user;
+  Categories.create({
+    name: category,
+    color: color,
+    user_id: user._id,
+  })
+    .then((category) => {
+      res.status(201).json(category);
+    })
+    .catch((err) => {
+      res.status(400).json({ message: err.messsage });
+    });
+});
+
 // Delete category by Id
 router.delete("/:id", userAuth, (req, res) => {
   const { id } = req.params;
