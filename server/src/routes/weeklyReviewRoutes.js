@@ -65,7 +65,7 @@ router.put("/:id", userAuth, (req, res) => {
       completed: 0,
       total: 0,
     },
-    Thurday: {
+    Thursday: {
       day: undefined,
       completed: 0,
       total: 0,
@@ -179,7 +179,7 @@ router.post("/", userAuth, (req, res) => {
       completed: 0,
       total: 0,
     },
-    Thurday: {
+    Thursday: {
       day: undefined,
       completed: 0,
       total: 0,
