@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateTrue, updateFalse } from "../feature/update/updateSlice";
 import {
   useGetWeeklyReviewsQuery,
   useGetWeeklyReviewByDateQuery,
@@ -9,6 +10,8 @@ import {
 
 function UpdateWeeklyResult({ monday, sunday }) {
   const { refetch: refetchWeeklyData } = useGetWeeklyReviewsQuery();
+
+  const dispatch = useDispatch();
 
   //Grab current date
   const dateString = useSelector((state) => state.date.value);
@@ -45,6 +48,12 @@ function UpdateWeeklyResult({ monday, sunday }) {
       .then((res) => {
         console.log(res);
         refetchWeeklyData();
+        // Display the update message
+        dispatch(updateTrue());
+        // Remove update messaage after 3 seconds
+        setTimeout(() => {
+          dispatch(updateFalse());
+        }, "3000");
       })
       .catch((err) => {
         console.log(err);
