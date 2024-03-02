@@ -43,7 +43,8 @@ function Header() {
 
   return (
     <nav className="shadow-xl top-0 fixed z-50 text-text bg-background flex flex-row justify-between items-center px-8 w-full min-w-800">
-      <Link to="/" className="text-2xl px-3 py-3">
+      <Link to="/" className="text-2xl px-3">
+        {/* <Link to="/" className="text-2xl px-3 py-3"> */}
         Habit Forge
       </Link>
       {user.username ? (
@@ -54,7 +55,7 @@ function Header() {
                 <li key={route.name}>
                   <Link
                     to={route.to}
-                    className={`flex items-center ${
+                    className={`flex items-center px-3 py-3 ${
                       activeTab === route.name ? "bg-secondary" : ""
                     }`}
                     onClick={() => handleClick(route.name)}
