@@ -41,11 +41,8 @@ function Category({ category }) {
     // console.log(habit);
     const complete = habit.completionStatus;
     // Map through habits again to count the number of completed for the day
-
     if (complete) {
       complete.map((completeInfo) => {
-        // for some reason when the date gets here the timezone changes
-        // NEED TO FIGURE THIS PART OUT LOOK INTO DATE SLICE AND UTC VALUE
         // Compare date and date of completed habit info
         if (completeInfo.date.split("T")[0] === formattedDate) {
           actualCompleted++;
@@ -60,10 +57,8 @@ function Category({ category }) {
   habitsData?.map((habit) => {
     if (habit.days.includes(dayOfWeek)) {
       completeTotal.push(habit);
-      console.log("true");
     }
   });
-  console.log(completeTotal);
 
   return (
     <div>
