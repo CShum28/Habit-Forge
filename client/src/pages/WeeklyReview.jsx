@@ -35,9 +35,12 @@ function WeeklyReview() {
                     <AccordionContent>
                       {Object.entries(weeklyData.accomplishments).map(
                         ([dayOfWeek, { day, completed, total }]) => (
-                          <div className="flex flex-row" key={day}>
+                          <div className="flex flex-row mx-2 my-1" key={day}>
                             <p>
-                              {day} - {completed}/{total}
+                              {day} - {completed}/{total}{" "}
+                              {completed === total &&
+                                total !== 0 &&
+                                "- Great job!"}
                             </p>
                           </div>
                         )
