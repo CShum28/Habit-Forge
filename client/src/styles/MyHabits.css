@@ -1,0 +1,14 @@
+/* Custom fade-out effect */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+#update-submit-notification {
+  animation: fadeOut 3s;
+}
