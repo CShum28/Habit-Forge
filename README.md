@@ -37,7 +37,7 @@ Unlock the power of daily discipline with Habit Forge, the intuitive checklist a
       1. Existing users can login
 2. My Habits Page
    1. Create Categories
-      1. Create Habits within Categories
+      1. Create Habits within Categories (make them reoccur on specific days)
       1. Check Habits off as complete
       1. Can edit / delete existing Habits
    2. Can edit / delete existing Categories
