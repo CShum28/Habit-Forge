@@ -18,14 +18,13 @@ Unlock the power of daily discipline with Habit Forge, the intuitive checklist a
 3. Open the server directory `cd server`.
 4. Ensure that you are using node version 12 or later: `node -v`.
 5. Install the dependencies: `npm i`.
-6. Copy the .env file `cp .env.example .env`.
-7. If you are using your own PostgreSQL credentials, update the `DB_USER` and `DB_PASS` fields in .env accordingly.
-8. Create and seed your database: `npm run db:reset`
-9. Run the server: `npm run dev`.
-10. In a separate terminal, open the react app folder: `cd client`.
-11. Install the dependencies: `npm i`.
-12. Start the React app: `npm start`.
-13. The app should launch automatically in your default browser. The app can also be accessed directly at `localhost:[PORT]`. The default port is `3000`.
+6. Copy the .env file `.env.example` and update ACCESS_TOKEN_SECRET.
+7. Run the server: `npm run dev`, default should be port 3001.
+8. In a separate terminal, open the react app folder: `cd client`.
+9. Install the dependencies: `npm i`.
+10. Start the React app: `npm run start`.
+11. Copy the .env file `.env.example` and update VITE_BASE_URL.
+12. The app should launch automatically in your default browser.
 
 ### MongoDB Setup
 
@@ -86,15 +85,19 @@ Unlock the power of daily discipline with Habit Forge, the intuitive checklist a
 
 ### Login
 
-!["Login"](https://github.com/CShum28/budget-app/blob/master/client/public/images/login.png)
+!["Login"](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/login.png)
 
 ### Sign Up
 
-!["Sign Up"](https://github.com/CShum28/budget-app/blob/master/client/public/images/signup.png)
+!["Sign Up"](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/sign-up.png)
 
 ### Home Page
 
-!['Home Page'](https://github.com/CShum28/budget-app/blob/master/client/public/images/home.png)
+!['Home Page'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/home-page.png)
+
+### Habits Page
+
+!['Habits Page'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/habits-page.png)
 
 ### Add New Budget
 
@@ -104,18 +107,26 @@ Unlock the power of daily discipline with Habit Forge, the intuitive checklist a
 
 !['Edit Budget'](https://github.com/CShum28/budget-app/blob/master/client/public/images/budget-edit.png)
 
-### Budget Page with Categories & Transactions
+### Toggle Date
 
-!['Budget page with Catogories'](https://github.com/CShum28/budget-app/blob/master/client/public/images/category-page.png)
+!['Toggle Date'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/toggle-date.png)
 
 ### Add New Category
 
-!['Add New Category'](https://github.com/CShum28/budget-app/blob/master/client/public/images/category-add.png)
+!['Add New Category'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/add-category.png)
 
-### Edit Existing Category
+### Add New Habit
 
-!['Edit Category'](https://github.com/CShum28/budget-app/blob/master/client/public/images/category-edit.png)
+!['Add New Habit'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/add-habit.png)
 
-### Add Transactions to Category
+### Confirm Delete
 
-!['Add Transaction'](https://github.com/CShum28/budget-app/blob/master/client/public/images/transaction-add.png)
+!['Add New Habit'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/confirm-delete.png)
+
+### About Page
+
+!['About Page'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/about-page.png)
+
+### Weekly Results Page
+
+!['Weekly Results Page'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/weekly-results.png)
