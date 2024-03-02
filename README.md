@@ -99,14 +99,6 @@ Unlock the power of daily discipline with Habit Forge, the intuitive checklist a
 
 !['Habits Page'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/habits-page.png)
 
-### Add New Budget
-
-!['Add New Budget'](https://github.com/CShum28/budget-app/blob/master/client/public/images/addbudget.png)
-
-### Edit Existing Budget
-
-!['Edit Budget'](https://github.com/CShum28/budget-app/blob/master/client/public/images/budget-edit.png)
-
 ### Toggle Date
 
 !['Toggle Date'](https://github.com/CShum28/Habit-Forge/blob/main/client/public/images/toggle-date.png)
