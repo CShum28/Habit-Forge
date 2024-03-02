@@ -5,6 +5,7 @@ import AddCategoryModal from "../components/AddCategoryModal";
 import AddWeeklyResult from "../components/AddWeeklyResult";
 import UpdateWeeklyResult from "../components/UpdateWeeklyResult";
 import Category from "../components/Category";
+import "../styles/MyHabits.css";
 
 import { useSelector } from "react-redux";
 import { useGetCategoriesByIdQuery } from "../app/api/categories/categoriesApi";
@@ -15,6 +16,9 @@ function MyHabits() {
     useGetCategoriesByIdQuery();
 
   const { data: weeklyReviewData } = useGetWeeklyReviewsQuery();
+
+  const update = useSelector((state) => state.update.value);
+  const submit = useSelector((state) => state.submit.value);
 
   const user = useSelector((state) => state.auth.value);
   //Grab current date
@@ -77,6 +81,24 @@ function MyHabits() {
         <div className="mt-4">
           <AddCategoryModal />
         </div>
+
+        {update && (
+          <div
+            id="update-submit-notification"
+            className="fixed top-2/4 right-2/4 z-50 bg-green-500 text-white p-2 rounded shadow-md"
+          >
+            <p>Updated!</p>
+          </div>
+        )}
+
+        {submit && (
+          <div
+            id="update-submit-notification"
+            className="fixed top-2/4 right-2/4 z-50 bg-green-500 text-white p-2 rounded shadow-md"
+          >
+            <p>Submitted!</p>
+          </div>
+        )}
 
         {/* if it is a Sunday and a weekly review is not yet added for this week */}
         {dayOfWeek === "Sunday" &&
