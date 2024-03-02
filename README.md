@@ -61,7 +61,6 @@ Unlock the power of daily discipline with Habit Forge, the intuitive checklist a
 - Tailwind v2.2.0
 - Axios: v1.6.3
 - Bootstrap v5.3.2
-- JWT-decode v4.0.0
 - Lucide-react v0.303.0
 - classNames: v2.3.2
 - Date-fns: v2.30.0
