@@ -139,7 +139,18 @@ function EditCategoryModal({ category }) {
                             return (
                               <SelectItem key={color.value} value={color.value}>
                                 <div className="flex flex-row">
-                                  <Square /> {color.color}
+                                  <Square
+                                    className={`${
+                                      color.value === "blue"
+                                        ? "bg-blue-200"
+                                        : color.value === "red"
+                                        ? "bg-red-200"
+                                        : color.value === "green"
+                                        ? "bg-green-200"
+                                        : ""
+                                    }`}
+                                  />
+                                  <p>{color.color}</p>
                                 </div>
                               </SelectItem>
                             );
