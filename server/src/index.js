@@ -5,9 +5,11 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 
 const app = express();
 
+app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
