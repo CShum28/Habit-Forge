@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Categories = require("../models/category");
+const ToDoItem = require("../models/toDoItem");
 
 const userAuth = require("../middleware/userAuth");
 
@@ -42,12 +43,25 @@ router.post("/", userAuth, (req, res) => {
 router.delete("/:id", userAuth, (req, res) => {
   const { id } = req.params;
 
-  Categories.deleteOne({ _id: id })
+  // Use deleteMany to delete all ToDoItems associated with the category_id
+  ToDoItem.deleteMany({ category_id: id })
     .then(() => {
-      res.status(200).json({ message: "Category deleted" });
+      // Proceed to delete the category after successfully deleting todo items
+      Categories.deleteOne({ _id: id })
+        .then(() =>
+          res
+            .status(200)
+            .json({ message: "Category and all associated todo items deleted" })
+        )
+        .catch((err) =>
+          res.status(500).json({ message: "Error deleting category", err })
+        );
     })
     .catch((err) =>
-      res.status(500).json({ message: "Error deleting category: ", err })
+      res.status(500).json({
+        message: "Error deleting todo items associated with the category",
+        err,
+      })
     );
 });
 
